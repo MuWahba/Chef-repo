@@ -16,9 +16,15 @@ package 'apache' do
 	action :install
 end
 
+template '/var/www/html' do
+	source 'index.html.erb'
+	action :create
+end
+
+
 service 'apache' do
 	service_name 'httpd'
-	action [:start, :enable]
+	action [ :enable, :start ]
 end
 
 

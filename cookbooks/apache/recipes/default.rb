@@ -21,7 +21,26 @@ template '/var/www/html' do
 	action :create
 end
 
+user 'user1' do
+	comment 'user1'
+	uid '111'
+	shell 'bin/bash'
+end
 
+
+bash 'run list' do
+	user 'user1'
+	code './script.sh'
+end
+execute 'run a script' do 
+	user 'root'
+	command <<-EOH
+ setenforce 0
+EOH
+only_ if '$getenforce==1'
+end
+
+ 
 service 'apache' do
 	service_name 'httpd'
 	action [ :enable, :start ]
